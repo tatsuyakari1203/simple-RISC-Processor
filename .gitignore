@@ -1,0 +1,67 @@
+# VLSI/Verilog specific
+*.vcd
+*.log
+*.dump
+*.saif
+*.vvp
+*.out
+*.o
+*.svf
+
+# Simulation files
+*.wlf
+*.mpf
+*.mti
+*.mem
+*.wdb
+*.fdo
+*.do
+*.mem
+sim/work/
+transcript
+*.cf
+*.jou
+
+# ModelSim/QuestaSim/Xilinx files
+modelsim.ini
+ies/
+xst/
+xsim/
+isim/
+vsim/
+*.csv
+
+# Synthesis and implementation files
+*.dcp
+*.bit
+*.bin
+*.mcs
+*.prm
+*.xpr
+*.runs/
+*.rpt
+
+# Verification environment
+*.hex
+*.sim/
+
+# IDE specific files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+*.tmp
+*.bak
+.Trash-*
+.cursor/
+*_autosave*
+
+# Documentation files
+*.pdf
+*.docx
+*.xlsx
+
+# Build directories
+build/
+obj/ 
