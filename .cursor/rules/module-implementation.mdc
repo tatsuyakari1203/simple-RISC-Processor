@@ -1,0 +1,79 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# RISC Processor Module Implementation Guidelines
+
+This document outlines the implementation requirements for each module in the RISC processor.
+
+## Program Counter (PC)
+- 5-bit register that tracks the current instruction address
+- Must activate at the rising edge of the clock
+- Requires active-HIGH reset signal to return PC to 0
+- Must support loading an arbitrary value for jumps
+- Otherwise increments sequentially
+
+## Address MUX
+- Multiplexes between instruction address and operand address
+- Default width should be 5 bits (parameterized for reusability)
+- sel=1 selects instruction address (PC output)
+- sel=0 selects operand address (from instruction)
+
+## Memory
+- Single shared memory for instructions and data
+- Single bidirectional data port (can't read and write simultaneously)
+- 5-bit address width (32 addresses)
+- 8-bit data width
+- Synchronous operation on the positive clock edge
+- Supports read and write operations
+
+## Instruction Register (IR)
+- 8-bit register to hold the current instruction
+- Upper 3 bits are opcode, lower 5 bits are operand address
+- Loads new instruction when ld_ir is active
+- Synchronous operation
+
+## Accumulator Register (ACC)
+- 8-bit register that stores intermediate results
+- Loads result from ALU when ld_ac is active
+- Synchronous operation
+- Used as first operand for most ALU operations
+
+## ALU
+- Performs 8 operations on 8-bit operands (inA and inB)
+- Operations defined by 3-bit opcode:
+  - 000 (HLT): Halt program, output inA
+  - 001 (SKZ): Check if inA is zero, output inA
+  - 010 (ADD): Add inA and inB, output result
+  - 011 (AND): Logical AND of inA and inB, output result
+  - 100 (XOR): Logical XOR of inA and inB, output result
+  - 101 (LDA): Output inB (load from memory)
+  - 110 (STO): Output inA (store to memory)
+  - 111 (JMP): Unconditional jump, output inA
+- Asynchronous is_zero flag that indicates if inA is zero
+
+## Controller
+- 8-state state machine with the following states:
+  - INST_ADDR
+  - INST_FETCH
+  - INST_LOAD
+  - IDLE
+  - OP_ADDR
+  - OP_FETCH
+  - ALU_OP
+  - STORE
+- Reset state is INST_ADDR
+- Synchronous operation on the positive clock edge
+- Takes 3-bit opcode input
+- Generates the following control signals:
+  - sel (address select)
+  - rd (memory read)
+  - ld_ir (load instruction register)
+  - halt (processor halt)
+  - inc_pc (increment program counter)
+  - ld_ac (load accumulator)
+  - ld_pc (load program counter)
+  - wr (memory write)
+  - data_e (data enable)
+- Control signals depend on current state and opcode

@@ -1,0 +1,46 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# RISC Processor Project Structure
+
+This project implements a simple RISC processor with 3-bit opcodes and 5-bit addressing as specified in the assignment.
+
+## Project Structure
+```
+/rtl/                  # RTL design files
+  - cpu_top.v          # Top-level CPU integration
+  - program_counter.v  # 5-bit PC implementation
+  - address_mux.v      # Address multiplexer
+  - memory.v           # Shared instruction/data memory (8-bit)
+  - instruction_reg.v  # Instruction register
+  - accumulator.v      # Accumulator register
+  - alu.v              # Arithmetic Logic Unit
+  - controller.v       # Control unit with state machine
+
+/testbench/            # Verification files
+  - tb_cpu_top.v       # System-level testbench
+  - tb_program_counter.v
+  - tb_address_mux.v
+  - tb_memory.v
+  - tb_instruction_reg.v
+  - tb_accumulator.v
+  - tb_alu.v
+  - tb_controller.v
+
+/sim/                  # Simulation files
+  - test_programs/     # Assembly/binary test programs
+  - waveforms/         # Saved simulation waveforms
+```
+
+## Instruction Set
+The processor supports 8 instructions with 3-bit opcodes:
+- 000: HLT - Halt the program
+- 001: SKZ - Skip next instruction if accumulator is zero
+- 010: ADD - Add memory value to accumulator
+- 011: AND - Logical AND memory value with accumulator
+- 100: XOR - Logical XOR memory value with accumulator
+- 101: LDA - Load memory value to accumulator
+- 110: STO - Store accumulator value to memory
+- 111: JMP - Jump to specified address

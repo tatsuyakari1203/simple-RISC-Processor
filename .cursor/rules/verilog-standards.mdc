@@ -1,0 +1,117 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Verilog Coding Standards for RISC Processor
+
+This document defines the coding standards to be followed for the RISC processor implementation.
+
+## Module Template
+```verilog
+module module_name #(
+    parameter PARAM_NAME = DEFAULT_VALUE
+)(
+    // Input ports
+    input wire clk,
+    input wire rst,
+    input wire [WIDTH-1:0] input_name,
+    
+    // Output ports
+    output reg [WIDTH-1:0] output_name
+);
+    // Parameters/Constants
+    localparam LOCAL_PARAM = VALUE;
+    
+    // Internal signals
+    reg [WIDTH-1:0] internal_reg;
+    wire [WIDTH-1:0] internal_wire;
+    
+    // Sequential logic
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            // Reset logic
+            internal_reg <= 0;
+        end else begin
+            // Normal operation
+            internal_reg <= some_expression;
+        end
+    end
+    
+    // Combinational logic
+    assign internal_wire = some_expression;
+    
+endmodule
+```
+
+## Naming Conventions
+- Use lowercase with underscores for module and signal names
+- Use UPPERCASE for parameters and constants
+- Use descriptive names that indicate purpose
+- Prefix internal registers with `r_` and wires with `w_` for clarity
+- Use consistent naming for related signals
+
+## Code Organization
+- Group related signals and logic
+- Separate sequential and combinational logic
+- Comment each section clearly
+- Indent consistently (use spaces, not tabs)
+- Keep line length reasonable (<80 characters)
+
+## State Machines
+For state machines (especially the controller):
+```verilog
+// State definitions
+localparam [2:0]
+    INST_ADDR  = 3'b000,
+    INST_FETCH = 3'b001,
+    INST_LOAD  = 3'b010,
+    IDLE       = 3'b011,
+    OP_ADDR    = 3'b100,
+    OP_FETCH   = 3'b101,
+    ALU_OP     = 3'b110,
+    STORE      = 3'b111;
+
+// State register
+reg [2:0] current_state, next_state;
+
+// State transition
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        current_state <= INST_ADDR;
+    else
+        current_state <= next_state;
+end
+
+// Next state logic
+always @(*) begin
+    case (current_state)
+        INST_ADDR:  next_state = INST_FETCH;
+        INST_FETCH: next_state = INST_LOAD;
+        // ... other state transitions
+        default:    next_state = INST_ADDR;
+    endcase
+end
+
+// Output logic
+always @(*) begin
+    // Default values
+    sel = 0; rd = 0; ld_ir = 0; // etc.
+    
+    case (current_state)
+        INST_ADDR: begin
+            sel = 1;
+            // ... other outputs
+        end
+        // ... other states
+    endcase
+end
+```
+
+## Documentation
+- Include header comments for each module with:
+  - Purpose
+  - Inputs/outputs description
+  - Operation summary
+- Comment complex logic
+- Document any assumptions made
