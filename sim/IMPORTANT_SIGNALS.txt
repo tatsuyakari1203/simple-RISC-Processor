@@ -1,0 +1,33 @@
+IMPORTANT SIGNALS FOR WAVEFORM CAPTURE:
+
+CLOCK AND CONTROL:
+- tb_cpu_top/clk
+- tb_cpu_top/rst
+- tb_cpu_top/halt
+
+CPU STATE:
+- tb_cpu_top/dut/ctrl/current_state
+
+PROGRAM EXECUTION:
+- tb_cpu_top/pc_out
+- tb_cpu_top/ir_out
+- tb_cpu_top/opcode
+- tb_cpu_top/operand
+
+DATA PATH:
+- tb_cpu_top/acc_out
+- tb_cpu_top/alu_out
+- tb_cpu_top/mem_addr
+- tb_cpu_top/mem_data_in
+- tb_cpu_top/mem_data_out
+
+CONTROL SIGNALS:
+- tb_cpu_top/sel
+- tb_cpu_top/rd
+- tb_cpu_top/ld_ir
+- tb_cpu_top/inc_pc
+- tb_cpu_top/ld_ac
+- tb_cpu_top/ld_pc
+- tb_cpu_top/wr
+- tb_cpu_top/data_e
+- tb_cpu_top/is_zero 

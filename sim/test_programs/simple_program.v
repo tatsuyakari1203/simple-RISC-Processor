@@ -14,6 +14,12 @@
 
 module test_program;
 
+// VCD dump for EPWave
+initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars;
+end
+
 // Memory initialization task
 task initialize_memory;
     output [7:0] mem [0:31];

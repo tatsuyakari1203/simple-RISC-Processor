@@ -17,6 +17,12 @@ module tb_cpu_top;
         forever #5 clk = ~clk;  // 100MHz clock (10ns period)
     end
     
+    // VCD dump for EPWave
+    initial begin
+        $dumpfile("dump.vcd");
+        $dumpvars(0, tb_cpu_top);
+    end
+    
     // Test sequence
     initial begin
         // Initialize
